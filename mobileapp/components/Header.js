@@ -12,12 +12,6 @@ class Header extends Component {
         <View
           style={styles.header}>
           {
-            this.props.withMenuButton &&
-            <TouchableOpacity style={{marginLeft: 14}}>
-              <Icon name="dehaze" color="white" size={36}/>
-            </TouchableOpacity>
-          }
-          {
             this.props.withBackButton &&
             <TouchableOpacity
               onPress={() => this.props.navigation.goBack()}
@@ -31,6 +25,14 @@ class Header extends Component {
           }
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
             <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>Club Stride</Text>
+            {
+              this.props.withLogOutButton &&
+              <TouchableOpacity style={{position: 'absolute', flex: 1, width: 30, top: 10, right: 20}}
+                onPress={() => firebase.auth().signOut()}
+                >
+                <Icon name='exit-to-app' color='white' size={36}/>
+              </TouchableOpacity>
+            }
           </View>
       </View>
     );
