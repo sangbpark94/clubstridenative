@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, StatusBar, Platform, Image, Button} from 'react-native';
 import { Constants } from 'expo'
-import {withNavigation} from 'react-navigation'
+import { withNavigation } from 'react-navigation'
 import { Icon } from 'react-native-elements'
 import * as firebase from "firebase";
 
