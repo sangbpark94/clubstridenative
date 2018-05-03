@@ -57,7 +57,7 @@ export default class LoginScreen extends Component {
               Club
             </Text>
             <Text style={{marginTop: -20, fontSize: 100, fontWeight: '900', textAlign: 'center', color: 'white'}}>
-              Stride
+              Strides
             </Text>
             <Text style={{margin: 4, textAlign: 'center', color: 'red'}}>{this.state.errorCode}</Text>
           {this.state.newUser &&
