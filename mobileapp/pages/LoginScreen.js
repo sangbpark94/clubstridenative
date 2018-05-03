@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, Keyboard, View, StatusBar, TextInput,KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, Image, Keyboard, View, StatusBar, TextInput,KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
 import * as firebase from "firebase";
 
 
@@ -68,7 +68,8 @@ export default class LoginScreen extends Component {
                 onSubmitEditing={(event) => Keyboard.dismiss()}
                onChangeText = {(text)=>this.name=text}/>
           }
-            <TextInput style = {styles.input}
+          <View style = {styles.login_row}>
+            <TextInput style = {[styles.login_input]}
                underlineColorAndroid = "transparent"
                placeholder = "Email"
                placeholderTextColor = "#cccccc"
@@ -76,18 +77,23 @@ export default class LoginScreen extends Component {
                  keyboardType='email-address'
                autoCapitalize = "none"
                onSubmitEditing={(event) => this.refs.PassInput.focus()}
-               onChangeText = {(text)=>this.email=text}/>
+               onChangeText = {(text)=>this.email=text}
+            />
+          </View>
+          <View style = {styles.login_row}>
+            <TextInput style = {[styles.login_input]}
+              underlineColorAndroid = "transparent"
+              placeholder = "Password"
+              placeholderTextColor = "#cccccc"
+               ref = 'PassInput'
+               returnKeyType="next"
+              autoCapitalize = "none"
+               onSubmitEditing={(event) => Keyboard.dismiss()}
+              secureTextEntry
+              onChangeText = {(text)=>this.password=text}
+            />
+          </View>
 
-            <TextInput style = {styles.input}
-               underlineColorAndroid = "transparent"
-               placeholder = "Password"
-               placeholderTextColor = "#cccccc"
-                ref = 'PassInput'
-                returnKeyType="next"
-               autoCapitalize = "none"
-                onSubmitEditing={(event) => Keyboard.dismiss()}
-               secureTextEntry
-               onChangeText = {(text)=>this.password=text}/>
 
             <TouchableOpacity
                style = {styles.submitButton}
@@ -103,20 +109,33 @@ export default class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
+      // ...Platform.select({
+      //   ios: {
+      //     fontFamily: 'Helvetica'
+      //   },
+      //   android: {
+      //     fontFamily: 'sans-serif'
+      //   }
+      // }),
       alignItems: 'center',
       justifyContent: 'center',
       flex:1,
       backgroundColor: '#222',
       padding: 40
    },
-   input: {
-      padding: 8,
-      width: '100%',
-      margin: 4,
-      backgroundColor: '#444',
-      borderColor: '#000',
-      color: 'white',
-      borderWidth: 1
+   login_row: {
+     height:40,
+     borderBottomWidth: 1,
+     borderBottomColor: 'rgba(255, 255, 255, 0.2)',
+     borderStyle: 'solid',
+     paddingTop: 10,
+     width:'100%'
+   },
+   login_input: {
+     paddingLeft: 20,
+     fontSize: 18,
+     backgroundColor: 'transparent',
+     color: '#CAC9CA'
    },
    submitButton: {
       backgroundColor: 'red',
