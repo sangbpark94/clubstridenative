@@ -19,6 +19,7 @@ class HomeScreen extends Component {
     loading: true,
     goalData: [],
     checkItUsed: null,
+    level: 0,
   };
 
   componentDidMount() {
@@ -28,6 +29,7 @@ class HomeScreen extends Component {
     this.setState({blobHeight: height, blobContWidth: blobContWidth});
     this._subscribe();
     this.setGoalData();
+    this.setLevel();
   }
 
   setGoalData = () => {
@@ -72,6 +74,13 @@ class HomeScreen extends Component {
             }
           })
       })
+    })
+  }
+
+  setLevel() {
+    var ratingRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/Rating');
+    ratingRef.once('value', (info) => {
+      this.setState({level: info.val().currentLevel})
     })
   }
 
@@ -141,7 +150,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header withProfileButton />
+        <Header withProfileButton level={this.state.level}/>
         <ScrollView>
           <View style={{backgroundColor: 'lightgrey'}}>
             <ScrollView
