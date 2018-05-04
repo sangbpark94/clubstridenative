@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { View, Text, ScrollView } from 'react-native'
 import * as firebase from "firebase";
+import Header from '../components/Header'
 import { withNavigation } from 'react-navigation'
 
 class Profile extends Component {
@@ -12,7 +14,7 @@ class Profile extends Component {
           <Text>
             Profile Page
           </Text>
-        <ScrollView>
+        </ScrollView>
       </View>
     )
   }

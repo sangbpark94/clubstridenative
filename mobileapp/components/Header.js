@@ -26,6 +26,14 @@ class Header extends Component {
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
             <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>Club Stride</Text>
             {
+              this.props.withProfileButton &&
+              <TouchableOpacity style={{position: 'absolute', flex: 1, paddingLeft: 15, paddingRight: 15, top: 0, right: 20, borderRadius: 50, height: 50, backgroundColor: 'white'}}
+                onPress={() => this.props.navigation.navigate('Profile')}
+                >
+                <Text style={{color: 'black', fontSize: 40, fontWeight: '900'}}>1</Text>
+              </TouchableOpacity>
+            }
+            {
               this.props.withLogOutButton &&
               <TouchableOpacity style={{position: 'absolute', flex: 1, width: 30, top: 10, right: 20}}
                 onPress={() => firebase.auth().signOut()}
