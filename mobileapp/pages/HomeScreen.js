@@ -192,7 +192,7 @@ class HomeScreen extends Component {
             }
           </View>
         </ScrollView>
-        <Footer />
+        <Footer level={this.state.level}/>
       </View>
     );
   }
