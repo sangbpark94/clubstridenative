@@ -23,6 +23,14 @@ class Header extends Component {
               />
             </TouchableOpacity>
           }
+          {
+            this.props.withHomeButton &&
+            <TouchableOpacity style={{paddingLeft: 14}}
+              onPress={() => this.props.navigation.navigate('HomeScreen')}
+              >
+              <Icon name='home' color='white' size={36}/>
+            </TouchableOpacity>
+          }
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
             <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>Club Stride</Text>
             {

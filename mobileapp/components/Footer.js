@@ -10,25 +10,25 @@ class Footer extends Component {
     return (
       <View
         style={styles.footer}>
-        <TouchableOpacity style={{flex: 1}}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('Checkpoints', {level: this.props.level})}>
           <Icon name='room' color='white' size={36}/>
-          <Text style={{fontSize: 13, textAlign: 'center', color: 'white'}}>
-            Rest Checkpoint
+          <Text style={{textAlign: 'center', color: 'white'}}>
+            Checkpoints
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flex: 1}}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('StartGoals', {level: this.props.level})}>
           <Icon name='assignment' color='white' size={36}/>
           <Text style={{textAlign: 'center', color: 'white'}}>
             Start Goals
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flex: 1}}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('Health', {level: this.props.level})}>
           <Icon name='favorite' color='white' size={36}/>
           <Text style={{textAlign: 'center', color: 'white'}}>
             Health
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flex: 1}}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('UsePerks', {level: this.props.level})}>
           <Icon name='grade' color='white' size={36}/>
           <Text style={{textAlign: 'center', color: 'white'}}>
             Use Perks
