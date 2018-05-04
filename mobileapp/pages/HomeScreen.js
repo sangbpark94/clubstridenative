@@ -140,7 +140,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View>
-        <Header withLogOutButton />
+        <Header withProfileButton />
         <ScrollView>
           <View style={{backgroundColor: 'lightgrey'}}>
             <ScrollView
