@@ -12,7 +12,7 @@ class GoalBlob extends Component {
   componentDidMount() {
     var width = Dimensions.get('window').width * 0.8;
     width = Math.round(width);
-    var height = Dimensions.get('window').height * 0.25;
+    var height = Dimensions.get('window').height * 0.2;
     height = Math.round(height);
     this.setState({width: width, height: height})
   }

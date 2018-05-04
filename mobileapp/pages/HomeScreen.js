@@ -3,6 +3,7 @@ import { Dimensions, View, Text, TouchableOpacity, StyleSheet, ScrollView } from
 import { Pedometer } from "expo";
 import { withNavigation } from 'react-navigation'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import StepBlob from '../components/StepBlob'
 import GoalBlob from '../components/GoalBlob'
 import * as firebase from "firebase";
@@ -139,12 +140,12 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Header withProfileButton />
         <ScrollView>
           <View style={{backgroundColor: 'lightgrey'}}>
             <ScrollView
-                style={{paddingTop: 20, paddingBottom: 20}}
+                style={{paddingTop: 5, paddingBottom: 5}}
                 scrollEventThrottle={10}
                 horizontal
                 showsHorizontalScrollingIndicator={false}
@@ -182,11 +183,10 @@ class HomeScreen extends Component {
             }
           </View>
         </ScrollView>
+        <Footer />
       </View>
     );
   }
 }
-
-var goalBlobs;
 
 export default withNavigation(HomeScreen);
