@@ -10,7 +10,8 @@ export default class App extends Component {
     super(props)
     this.state={
      login_status: -1,
-     new_user: false
+     new_user: false,
+     uid: ""
     }
   }
 
@@ -80,7 +81,7 @@ export default class App extends Component {
         )
       }else if (this.state.login_status == 1){
         return(
-          <Navigator />
+          <Navigator/>
         )
       }else{
         return(

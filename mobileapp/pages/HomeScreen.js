@@ -5,6 +5,7 @@ import { withNavigation } from 'react-navigation'
 import Header from '../components/Header'
 import StepBlob from '../components/StepBlob'
 import GoalBlob from '../components/GoalBlob'
+import * as firebase from "firebase";
 
 class HomeScreen extends Component {
 
@@ -13,7 +14,10 @@ class HomeScreen extends Component {
     blobHeight: 0,
     isPedometerAvailable: "checking",
     pastStepCount: 0,
-    currentStepCount: 0
+    currentStepCount: 0,
+    loading: true,
+    goalData: [],
+    checkItUsed: null,
   };
 
   componentDidMount() {
@@ -22,6 +26,71 @@ class HomeScreen extends Component {
     height  = Math.round(height);
     this.setState({blobHeight: height, blobContWidth: blobContWidth});
     this._subscribe();
+    this.setGoalData();
+  }
+
+  setGoalData = () => {
+    var current = this;
+    var userGoalsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/Goals');
+    var goalsLibRef = firebase.database().ref('GoalsLib');
+    this.setState({goalData: []});
+    userGoalsRef.once('value', function(goals) {
+      var i = 0;
+      var num = goals.numChildren();
+      goals.forEach(function(goal){
+        var val = goal.val();
+        firebase.database().ref('GoalsLib/' + val.key).once('value',
+          function(info){
+            i++;
+            console.log(goal.key)
+            if(goal.key == "CheckIt"){
+              if(val.used == true)
+                current.setState({checkItUsed: true})
+            }
+            else{
+              var infoVal = info.val();
+              console.log(goal.key)
+              var data =  {
+                goalType: goal.key,
+                details: info.child("details").exists() ? infoVal.details : "",
+                endDuration: info.child("duration").exists() ? infoVal.duration : "",
+                currentSteps: val.currentSteps ? val.currentSteps : 0,
+                endSteps: info.child("steps").exists() ? infoVal.steps : 0,
+                endTime:goal.child("endTime").exists() ? val.endTime : "",
+                endDate: info.child("endDate").exists() ? infoVal.endDate : "",
+                timeType: info.child("timetype").exists() ? infoVal.timetype : "",
+                currentDuration: val.currentDuration
+              }
+              var temp = current.state.goalData;
+              temp.push(data);
+              console.log(data)
+              current.setState({goalData: temp})
+            }
+            if(i == num){
+              current.setState({loading: false})
+            }
+          })
+      })
+    })
+  }
+
+  renderGoalBlobs = () => {
+    var current = this;
+    return this.state.goalData.map((obj, i) => (
+        <View key={i} style={{flex: 1, alignItems: 'center', backgroundColor: 'grey', marginBottom: 30}}>
+          <GoalBlob goalType={obj.goalType}
+                    details={obj.details}
+                    endDuration={obj.endDuration}
+                    currentSteps={obj.currentSteps}
+                    endSteps={obj.endSteps}
+                    endTime={obj.endTime}
+                    endDate={obj.endDate}
+                    timeType={obj.timeType}
+                    currentDuration={obj.currentDuration}
+                    />
+        </View>
+      )
+    )
   }
 
   componentWillUnmount() {
@@ -100,20 +169,24 @@ class HomeScreen extends Component {
             <Text style={{fontSize: 28, margin: 15, color: 'white', fontWeight: '900', textAlign: 'center'}}>
               Goals
             </Text>
-            <View style={{flex: 1, alignItems: 'center', backgroundColor: 'grey'}}>
-              <GoalBlob steps={this.state.pastStepCount + this.state.currentStepCount} details='Walk 10,000 Steps For 7 Days'/>
-            </View>
-            <View style={{marginTop: 30, flex: 1, alignItems: 'center', backgroundColor: 'grey'}}>
-              <GoalBlob steps={this.state.pastStepCount + this.state.currentStepCount} details='Walk 10,000 Steps For 7 Days'/>
-            </View>
-            <View style={{marginTop: 30, flex: 1, alignItems: 'center', backgroundColor: 'grey'}}>
-              <GoalBlob steps={this.state.pastStepCount + this.state.currentStepCount} details='Walk 10,000 Steps For 7 Days'/>
-            </View>
+            {this.state.loading == true ? null : this.renderGoalBlobs()}
+            {this.state.loading == true ? null :
+              this.state.checkItUsed == true ?
+              <View style={{flex: 1, alignItems: 'center', backgroundColor: 'grey', marginBottom: 30}}>
+                <GoalBlob goalType="CheckItUsed"/>
+              </View>
+              :
+              <View style={{flex: 1, alignItems: 'center', backgroundColor: 'grey', marginBottom: 30}}>
+                <GoalBlob goalType={"CheckItUnused"}/>
+              </View>
+            }
           </View>
         </ScrollView>
       </View>
     );
   }
 }
+
+var goalBlobs;
 
 export default withNavigation(HomeScreen);
