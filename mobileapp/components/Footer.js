@@ -12,7 +12,7 @@ class Footer extends Component {
         style={styles.footer}>
         <TouchableOpacity style={{flex: 1}}>
           <Icon name='room' color='white' size={36}/>
-          <Text style={{textAlign: 'center', color: 'white'}}>
+          <Text style={{fontSize: 13, textAlign: 'center', color: 'white'}}>
             Rest Checkpoint
           </Text>
         </TouchableOpacity>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
     width: '100%',
-    height: 75,
+    height: 80,
     alignItems: 'center',
     backgroundColor:'#222',
   },
