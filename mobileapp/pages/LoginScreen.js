@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, Text, Image, Keyboard, View, StatusBar, TextInput,KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
 import * as firebase from "firebase";
+import LinearGradient from 'react-native-linear-gradient';
 
 
 export default class LoginScreen extends Component {
@@ -45,6 +46,7 @@ export default class LoginScreen extends Component {
 
   render() {
     return (
+
       <KeyboardAvoidingView
         style={styles.container}
         behavior="padding"
@@ -68,6 +70,7 @@ export default class LoginScreen extends Component {
                 onSubmitEditing={(event) => Keyboard.dismiss()}
                onChangeText = {(text)=>this.name=text}/>
           }
+          <LinearGradient colors = {['rgba(146, 135, 187, 0.8)', "rgba(0, 0, 0, 0.6)" ]}>
           <View style = {styles.login_row}>
             <TextInput style = {[styles.login_input]}
                underlineColorAndroid = "transparent"
@@ -94,7 +97,7 @@ export default class LoginScreen extends Component {
             />
           </View>
 
-
+          </LinearGradient>
             <TouchableOpacity
                style = {styles.submitButton}
                onPress = {
@@ -103,6 +106,7 @@ export default class LoginScreen extends Component {
                <Text style = {styles.submitButtonText}> {this.state.newUser? "Register" : "Sign In / Register"} </Text>
             </TouchableOpacity>
          </KeyboardAvoidingView>
+
     )
   }
 }
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       flex:1,
-      backgroundColor: '#222',
+      backgroundColor: 'red',
       padding: 40
    },
    login_row: {
