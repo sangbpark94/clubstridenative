@@ -69,7 +69,7 @@ class Profile extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header title="Profile" withBackButton withLogOutButton />
+        <Header title="Profile" withLogOutButton />
         <ScrollView
           contentContainerStyle={{alignItems: 'center'}}
           style={{backgroundColor: 'lightgrey'}}
