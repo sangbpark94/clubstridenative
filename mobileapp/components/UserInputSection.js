@@ -14,7 +14,7 @@ export default class UserInputSection extends Component {
   render() {
     return (
       <View style={styles.inputWrapper}>
-        <Image source={this.props.source} style={styles.inlineImg} />
+        <Image source={this.props.source} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder={this.props.placeholder}
@@ -50,8 +50,9 @@ const styles = StyleSheet.create({
   inputWrapper: {
     flex: 1,
   },
-  inlineImg: {
+  icon: {
     position: 'absolute',
+    tintColor: 'white',
     zIndex: 99,
     width: 22,
     height: 22,

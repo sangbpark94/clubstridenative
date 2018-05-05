@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import {StyleSheet, ImageBackground} from 'react-native';
 
-import imageSource from '../images/runnerbg.jpg';
+import src from '../images/background_runner.jpg';
 
 export default class Background extends Component {
   render() {
     return (
-      <ImageBackground style={styles.picture} source={imageSource}>
+      <ImageBackground style={styles.background} source={src}>
         {this.props.children}
       </ImageBackground>
     );
@@ -14,7 +14,7 @@ export default class Background extends Component {
 }
 
 const styles = StyleSheet.create({
-  picture: {
+  background: {
     flex: 1,
   },
 });

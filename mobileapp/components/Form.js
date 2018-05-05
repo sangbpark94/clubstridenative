@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 import { StyleSheet,
          KeyboardAvoidingView,
          View,
-         ActivityIndicator,
-         TouchableOpacity,
          Image } from 'react-native';
 import UserInputSection from './UserInputSection';
-import icon_user from '../images/ic_action_chevron_left.png';
-import icon_password from '../images/ic_action_chevron_left.png';
+import icon_user from '../images/icon_user.png';
+import icon_password from '../images/icon_password.png';
 
 export default class Form extends Component {
   render() {
@@ -34,10 +32,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-  },
-  btnEye: {
-    position: 'absolute',
-    top: 55,
-    right: 28,
   }
 });
