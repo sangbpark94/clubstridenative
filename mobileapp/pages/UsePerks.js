@@ -14,7 +14,7 @@ class UsePerks extends Component {
         <ScrollView>
           <Text>UsePerks Page</Text>
         </ScrollView>
-        <Footer />
+        <Footer level={this.props.navigation.state.params.level}/>
       </View>
     )
   }

@@ -14,7 +14,7 @@ class Health extends Component {
         <ScrollView>
           <Text>Health Page</Text>
         </ScrollView>
-        <Footer />
+        <Footer level={this.props.navigation.state.params.level}/>
       </View>
     )
   }
