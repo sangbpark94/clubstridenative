@@ -14,7 +14,7 @@ class StartGoals extends Component {
         <ScrollView>
           <Text>StartGoals Page</Text>
         </ScrollView>
-        <Footer />
+        <Footer level={this.props.navigation.state.params.level}/>
       </View>
     )
   }
