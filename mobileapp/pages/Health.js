@@ -10,7 +10,7 @@ class Health extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header withHomeButton withProfileButton title="Health"level={this.props.navigation.state.params.level}/>
+        <Header withProfileButton title="Health"level={this.props.navigation.state.params.level}/>
         <ScrollView>
           <Text>Health Page</Text>
         </ScrollView>

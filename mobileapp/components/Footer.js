@@ -12,15 +12,18 @@ class Footer extends Component {
         style={styles.footer}>
         <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('Checkpoints', {level: this.props.level})}>
           <Icon name='room' color='white' size={36}/>
-          <Text style={{textAlign: 'center', color: 'white'}}>
+          <Text style={{fontSize: 12, textAlign: 'center', color: 'white'}}>
             Checkpoints
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('StartGoals', {level: this.props.level})}>
+        <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('GoalPage', {level: this.props.level})}>
           <Icon name='assignment' color='white' size={36}/>
           <Text style={{textAlign: 'center', color: 'white'}}>
-            Start Goals
+            Goals
           </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={() => this.props.navigation.navigate('HomeScreen', {level: this.props.level})}>
+          <Image style={{width: 70, height: 70}} source={require('../images/redshoe.png')} />
         </TouchableOpacity>
         <TouchableOpacity style={{flex: 1}} onPress={() => this.props.navigation.navigate('Health', {level: this.props.level})}>
           <Icon name='favorite' color='white' size={36}/>

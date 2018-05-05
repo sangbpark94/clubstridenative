@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ProgressViewIOS, Dimensions, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation'
+import * as firebase from "firebase";
 
 class GoalBlob extends Component {
 
@@ -15,6 +16,8 @@ class GoalBlob extends Component {
     var height = Dimensions.get('window').height * 0.2;
     height = Math.round(height);
     this.setState({width: width, height: height})
+    var d = new Date();
+    var n = d.getTime();
   }
 
   render() {

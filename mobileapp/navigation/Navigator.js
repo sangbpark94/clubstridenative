@@ -2,7 +2,7 @@ import { StackNavigator } from 'react-navigation'
 import HomeScreen from '../pages/HomeScreen'
 import Profile from '../pages/Profile'
 import Checkpoints from '../pages/Checkpoints'
-import StartGoals from '../pages/StartGoals'
+import GoalPage from '../pages/GoalPage'
 import Health from '../pages/Health'
 import UsePerks from '../pages/UsePerks'
 
@@ -16,8 +16,8 @@ export default StackNavigator({
   Checkpoints: {
     screen: Checkpoints,
   },
-  StartGoals: {
-    screen: StartGoals,
+  GoalPage: {
+    screen: GoalPage,
   },
   Health: {
     screen: Health,

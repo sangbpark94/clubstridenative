@@ -87,9 +87,9 @@ class HomeScreen extends Component {
   }
 
   checkForDateResets(){
-    // var q = new Date(2018, 4,5,0,0);
-    // var x = q.getTime();
-    // console.log("May 5: " + x);
+    var q = new Date(2018,4,4,13,30);
+    var x = q.getTime();
+    console.log("May 5: " + x);
     // q = new Date(2018, 3,30,0,0);
     // x = q.getTime();
     // console.log("April 30: " + x);
