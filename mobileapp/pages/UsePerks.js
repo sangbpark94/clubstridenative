@@ -10,7 +10,7 @@ class UsePerks extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header withHomeButton withProfileButton level={this.props.navigation.state.params.level}/>
+        <Header withHomeButton withProfileButton title="Use Perks" level={this.props.navigation.state.params.level}/>
         <ScrollView>
           <Text>UsePerks Page</Text>
         </ScrollView>

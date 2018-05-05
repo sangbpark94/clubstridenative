@@ -32,7 +32,7 @@ class Header extends Component {
             </TouchableOpacity>
           }
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
-            <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>Club Stride</Text>
+            <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>{this.props.title}</Text>
             {
               this.props.withProfileButton &&
               <TouchableOpacity style={{position: 'absolute', flex: 1, paddingLeft: 15, paddingRight: 15, top: 0, right: 20, borderRadius: 50, height: 50, backgroundColor: levelColor[this.props.level]}}

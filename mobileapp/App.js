@@ -11,7 +11,6 @@ export default class App extends Component {
     this.state={
      login_status: -1,
      new_user: false,
-     uid: ""
     }
   }
 
