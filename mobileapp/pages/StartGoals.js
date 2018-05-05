@@ -10,7 +10,7 @@ class StartGoals extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header withHomeButton withProfileButton level={this.props.navigation.state.params.level}/>
+        <Header withHomeButton withProfileButton title="Start Goals" level={this.props.navigation.state.params.level}/>
         <ScrollView>
           <Text>StartGoals Page</Text>
         </ScrollView>

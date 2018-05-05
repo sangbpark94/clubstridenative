@@ -20,6 +20,12 @@ class HomeScreen extends Component {
     goalData: [],
     checkItUsed: null,
     level: 0,
+    dailysteps: 0,
+    weeklysteps: 0,
+    monthlysteps: 0,
+    dailystartdate: null,
+    weeklystartdate: null,
+    monthlystartdate: null
   };
 
   componentDidMount() {
@@ -29,7 +35,10 @@ class HomeScreen extends Component {
     this.setState({blobHeight: height, blobContWidth: blobContWidth});
     this._subscribe();
     this.setGoalData();
+    this.setSteps();
+    this.checkForDateResets();
     this.setLevel();
+    setInterval(()=>this.updateSteps(), 30000)
   }
 
   setGoalData = () => {
@@ -77,10 +86,122 @@ class HomeScreen extends Component {
     })
   }
 
+  checkForDateResets(){
+    // var q = new Date(2018, 4,5,0,0);
+    // var x = q.getTime();
+    // console.log("May 5: " + x);
+    // q = new Date(2018, 3,30,0,0);
+    // x = q.getTime();
+    // console.log("April 30: " + x);
+    // q = new Date(2018, 4,1,0,0);
+    // x = q.getTime();
+    // console.log("May 1: " + x);
+    var current = this;
+    var stepsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/StartDates');
+    stepsRef.once('value', (info) => {
+      var dailystartdate = info.val().Daily
+      var weeklystartdate = info.val().Weekly
+      var monthlystartdate = info.val().Monthly
+      var enddailydate = dailystartdate + 86400000;
+      var endweeklydate = weeklystartdate + 604800000;
+      var temp = new Date(monthlystartdate);
+      var endmonthlydate;
+      var month = temp.getMonth();
+      if(month == 1){
+        endmonthlydate = monthlystartdate + 2419200000;
+      }
+      else if(month == 3 || month == 5 || month == 8 || month == 10){
+        endmonthlydate = monthlystartdate + 2592000000;
+      }
+      else {
+        endmonthlydate = monthlystartdate + 2678400000
+      }
+
+      var d = new Date();
+      var t = d.getTime();
+      // console.log("time now is " + t)
+      // console.log("enddailydate is " + enddailydate)
+      // console.log("endweeklydate is" + endweeklydate)
+      // console.log("endmonthlydate is " + endmonthlydate)
+      if(enddailydate <= t){
+        this.resetStepsAndDate('dailystartdate', 'dailysteps', 'Daily')
+        // console.log("entered 1")
+      }
+      else{
+        setTimeout(function() {current.resetStepsAndDate('dailystartdate', 'dailysteps', 'Daily')}, enddailydate - t);
+        // console.log("time til enddailydate " + (enddailydate - t));
+        // console.log("entered 2")
+      }
+      if(endweeklydate <= t){
+        this.resetStepsAndDate('weeklystartdate', 'weeklysteps', 'Weekly')
+        // console.log("entered 3")
+      }
+      else{
+        setTimeout(function() {current.resetStepsAndDate('weeklystartdate', 'weeklysteps', 'Weekly')}, endweeklydate - t);
+        // console.log("time til enddailydate " + (endweeklydate - t));
+        // console.log("entered 4")
+      }
+      if(endmonthlydate <= t){
+        this.resetStepsAndDate('monthlystartdate', 'monthlysteps', 'Monthly')
+        // console.log("entered 5")
+      }
+      else{
+        setTimeout(function() {current.resetStepsAndDate('monthlystartdate', 'monthlysteps', 'Monthly')}, endmonthlydate - t);
+        // console.log("time til enddailydate " + (endmonthlydate - t));
+        // console.log("entered 6")
+      }
+      this.setState({
+        dailystartdate: info.val().Daily,
+        weeklystartdate: info.val().Weekly,
+        monthlystartdate: info.val().Monthly
+      })
+
+    })
+  }
+
+  resetStepsAndDate(a,b,c) {
+    // console.log("entered reset")
+    var today = new Date();
+    var t = today.getTime();
+    var d;
+    if(c == 'Daily'){
+      d = Math.floor(t / 86400000) * 86400000;
+    }
+    else if(c == 'Weekly'){
+      d = Math.floor(t / 604800000) * 604800000;
+    }
+    else if(c == 'Monthly'){
+      var date = new Date(today.getYear(), today.getMonth(), 1, 0, 0);
+      d = date.getTime();
+    }
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/Steps/' + c).set(0);
+    this.setState({ [a]: d, [b]: 0 })
+  }
+
   setLevel() {
     var ratingRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/Rating');
     ratingRef.once('value', (info) => {
       this.setState({level: info.val().currentLevel})
+    })
+  }
+
+  setSteps() {
+    var stepsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/Steps');
+    stepsRef.once('value', (info) => {
+      this.setState({
+        dailysteps: info.val().Daily,
+        weeklysteps: info.val().Weekly,
+        monthlysteps: info.val().Monthly
+      })
+    })
+  }
+
+  updateSteps() {
+    var stepsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/Steps');
+    stepsRef.set({
+      Daily: this.state.dailysteps + this.state.currentStepCount,
+      Weekly: this.state.weeklysteps + this.state.currentStepCount,
+      Monthly: this.state.monthlysteps + this.state.currentStepCount
     })
   }
 
@@ -101,10 +222,6 @@ class HomeScreen extends Component {
         </View>
       )
     )
-  }
-
-  componentWillUnmount() {
-    this._unsubscribe();
   }
 
   _subscribe = () => {
@@ -150,7 +267,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header withProfileButton level={this.state.level}/>
+        <Header withProfileButton title="Club Stride" level={this.state.level}/>
         <ScrollView>
           <View style={{backgroundColor: 'lightgrey'}}>
             <ScrollView
@@ -165,13 +282,13 @@ class HomeScreen extends Component {
                 snapToInterval={Math.round(Dimensions.get('window').width * 0.8825)}
               >
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='blue' type='Weekly Steps' count={this.state.pastStepCount + this.state.currentStepCount + 9835} />
+                <StepBlob bgColor='blue' type='Weekly Steps' count={this.state.weeklysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='red' type='Daily Steps' count={this.state.pastStepCount + this.state.currentStepCount} />
+                <StepBlob bgColor='red' type='Daily Steps' count={this.state.dailysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='green' type='Monthly Steps' count={this.state.pastStepCount + this.state.currentStepCount + 33280} />
+                <StepBlob bgColor='green' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
               </View>
             </ScrollView>
           </View>

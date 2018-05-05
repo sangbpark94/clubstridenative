@@ -10,7 +10,7 @@ class Checkpoints extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header withHomeButton withProfileButton level={this.props.navigation.state.params.level}/>
+        <Header withHomeButton withProfileButton title="CheckPoints" level={this.props.navigation.state.params.level}/>
         <ScrollView>
           <Text>Checkpoints Page</Text>
         </ScrollView>
