@@ -6,6 +6,7 @@ import { StyleSheet,
 import UserInputSection from './UserInputSection';
 import icon_user from '../images/icon_user.png';
 import icon_password from '../images/icon_password.png';
+import Button_Submit from './Button_Submit'
 
 export default class Form extends Component {
   render() {
@@ -23,7 +24,9 @@ export default class Form extends Component {
           placeholder="Password"
           returnKeyType={'done'}
         />
+        <Button_Submit/>
       </KeyboardAvoidingView>
+
     );
   }
 }
