@@ -288,7 +288,7 @@ class HomeScreen extends Component {
                 <StepBlob bgColor='red' type='Daily Steps' count={this.state.dailysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='green' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
+                <StepBlob bgColor='red' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
               </View>
             </ScrollView>
           </View>
