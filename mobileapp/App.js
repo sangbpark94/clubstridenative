@@ -4,6 +4,7 @@ import * as firebase from "firebase";
 import {AppLoading} from 'expo';
 import Navigator from './navigation/Navigator'
 import LoginScreen from './pages/LoginScreen'
+import SignupScreen from './pages/SignupScreen'
 export default class App extends Component {
 
   constructor(props){
