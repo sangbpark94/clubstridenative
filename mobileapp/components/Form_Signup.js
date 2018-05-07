@@ -16,12 +16,12 @@ export default class Form_Signup extends Component {
     this.state = {
       email: '',
       username: '',
+      name: '',
       password: ''
-
     }
   }
   _registerUser(){
-     let replaced = this.name.split(' ').join('');
+     let replaced = this.username.split(' ').join('');
      if (replaced!=""){
        firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(() => {
          this.props.updateName(this.name)
@@ -66,7 +66,9 @@ export default class Form_Signup extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
+    flexDirection: 'column',
     alignItems: 'center',
+    justifyContent: 'space-around'
   }
 });
