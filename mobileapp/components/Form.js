@@ -24,7 +24,6 @@ export default class Form extends Component {
           placeholder="Password"
           returnKeyType={'done'}
         />
-        <Button_Submit/>
       </KeyboardAvoidingView>
 
     );
