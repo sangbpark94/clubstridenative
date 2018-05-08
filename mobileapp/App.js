@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as firebase from "firebase";
 import {AppLoading} from 'expo';
-import Navigator from './navigation/Navigator'
-import LoginScreen from './pages/LoginScreen'
+import Navigator from './navigation/Navigator';
+import LoginScreen from './pages/LoginScreen';
+import config from './config';
 export default class App extends Component {
 
   constructor(props){
@@ -19,16 +20,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    var config = {
-      apiKey: apiKey		,
-      authDomain: authDomain,
-      databaseURL: databaseURL,
-      projectId: projectId,
-      storageBucket: storageBucket,
-      messagingSenderId: messagingSenderId
-    };
     firebase.initializeApp(config);
-
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         if (this.state.new_user){
