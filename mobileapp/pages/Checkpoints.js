@@ -14,7 +14,7 @@ class Checkpoints extends Component {
         <ScrollView>
           <Text>Checkpoints Page</Text>
         </ScrollView>
-        <Footer level={this.props.navigation.state.params.level}/>
+        <Footer goalData={this.props.navigation.state.params.goalData} level={this.props.navigation.state.params.level}/>
       </View>
     )
   }

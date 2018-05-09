@@ -5,6 +5,7 @@ import {AppLoading} from 'expo';
 import Navigator from './navigation/Navigator';
 import LoginScreen from './pages/LoginScreen';
 import config from './config';
+
 export default class App extends Component {
 
   constructor(props){
