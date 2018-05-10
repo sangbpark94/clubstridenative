@@ -20,14 +20,6 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    var config = {
-      apiKey: apiKey		,
-      authDomain: authDomain,
-      databaseURL: databaseURL,
-      projectId: projectId,
-      storageBucket: storageBucket,
-      messagingSenderId: messagingSenderId
-    };
     firebase.initializeApp(config);
 
     firebase.auth().onAuthStateChanged((user) => {
