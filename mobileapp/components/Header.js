@@ -23,8 +23,24 @@ class Header extends Component {
               />
             </TouchableOpacity>
           }
+          {
+            this.props.withHomeButton &&
+            <TouchableOpacity style={{paddingLeft: 14}}
+              onPress={() => this.props.navigation.navigate('HomeScreen')}
+              >
+              <Icon name='home' color='white' size={36}/>
+            </TouchableOpacity>
+          }
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
-            <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>Club Stride</Text>
+            <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>{this.props.title}</Text>
+            {
+              this.props.withProfileButton &&
+              <TouchableOpacity style={{position: 'absolute', flex: 1, paddingLeft: 15, paddingRight: 15, top: 0, right: 20, borderRadius: 50, height: 50, backgroundColor: levelColor[this.props.level]}}
+                onPress={() => this.props.navigation.navigate('Profile', {goalData: this.props.goalData, level: this.props.level})}
+                >
+                <Text style={{color: 'white', fontSize: 40, fontWeight: '900'}}>{this.props.level}</Text>
+              </TouchableOpacity>
+            }
             {
               this.props.withLogOutButton &&
               <TouchableOpacity style={{position: 'absolute', flex: 1, width: 30, top: 10, right: 20}}
@@ -60,3 +76,9 @@ const styles = StyleSheet.create({
     margin: 16,
   },
 });
+
+const levelColor = {
+  1:  'red',
+  2:  'blue',
+  3:  'green'
+}

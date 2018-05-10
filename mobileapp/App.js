@@ -2,16 +2,17 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as firebase from "firebase";
 import {AppLoading} from 'expo';
-import Navigator from './navigation/Navigator'
-import LoginScreen from './pages/LoginScreen'
-import SignupScreen from './pages/SignupScreen'
+import Navigator from './navigation/Navigator';
+import LoginScreen from './pages/LoginScreen';
+import config from './config';
+
 export default class App extends Component {
 
   constructor(props){
     super(props)
     this.state={
      login_status: -1,
-     new_user: false
+     new_user: false,
     }
   }
 
@@ -21,7 +22,6 @@ export default class App extends Component {
 
   componentDidMount() {
     firebase.initializeApp(config);
-
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         if (this.state.new_user){
@@ -73,7 +73,7 @@ export default class App extends Component {
         )
       }else if (this.state.login_status == 1){
         return(
-          <Navigator />
+          <Navigator/>
         )
       }else{
         return(
