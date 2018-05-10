@@ -14,7 +14,11 @@ class UsePerks extends Component {
         <ScrollView>
           <Text>UsePerks Page</Text>
         </ScrollView>
+<<<<<<< HEAD
         <Footer goalData={this.props.navigation.state.params.goalData} level={this.props.navigation.state.params.level}/>
+=======
+        <Footer level={this.props.navigation.state.params.level}/>
+>>>>>>> a7798b6bf594d65c9bf16b6e02e0d5f1770c470b
       </View>
     )
   }
