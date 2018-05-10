@@ -54,14 +54,12 @@ class HomeScreen extends Component {
         firebase.database().ref('GoalsLib/' + val.key).once('value',
           function(info){
             i++;
-            console.log(goal.key)
             if(goal.key == "CheckIt"){
               if(val.used == true)
                 current.setState({checkItUsed: true})
             }
             else{
               var infoVal = info.val();
-              console.log(goal.key)
               var data =  {
                 goalType: goal.key,
                 details: info.child("details").exists() ? infoVal.details : "",
@@ -75,7 +73,6 @@ class HomeScreen extends Component {
               }
               var temp = current.state.goalData;
               temp.push(data);
-              console.log(data)
               current.setState({goalData: temp})
             }
             if(i == num){
@@ -87,15 +84,12 @@ class HomeScreen extends Component {
   }
 
   checkForDateResets(){
-    var q = new Date(2018,4,4,13,30);
+    var q = new Date(2018,4,7,0,0);
     var x = q.getTime();
-    console.log("May 5: " + x);
-    // q = new Date(2018, 3,30,0,0);
-    // x = q.getTime();
-    // console.log("April 30: " + x);
-    // q = new Date(2018, 4,1,0,0);
-    // x = q.getTime();
-    // console.log("May 1: " + x);
+    // console.log("May 7: " + x);
+    q = new Date(2018,4,8,0,0);
+    x = q.getTime();
+    // console.log("May 8: " + x);
     var current = this;
     var stepsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/StartDates');
     stepsRef.once('value', (info) => {
@@ -267,7 +261,7 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <Header withProfileButton title="Club Stride" level={this.state.level}/>
+        <Header withProfileButton title="Club Stride" goalData={this.state.goalData} level={this.state.level}/>
         <ScrollView>
           <View style={{backgroundColor: '#f4f5f7'}}>
             <ScrollView
@@ -311,7 +305,7 @@ class HomeScreen extends Component {
             }
           </View>
         </ScrollView>
-        <Footer level={this.state.level}/>
+        <Footer goalData = {this.state.goalData} level={this.state.level}/>
       </View>
     );
   }
