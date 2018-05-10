@@ -208,7 +208,7 @@ class HomeScreen extends Component {
   renderGoalBlobs = () => {
     var current = this;
     return this.state.goalData.map((obj, i) => (
-        <View key={i} style={{flex: 1, alignItems: 'center', backgroundColor: 'grey', marginBottom: 30}}>
+        <View key={i} style={{flex: 1, alignItems: 'center', backgroundColor: '#dbdcdd', marginBottom: 30}}>
           <GoalBlob goalType={obj.goalType}
                     details={obj.details}
                     endDuration={obj.endDuration}
@@ -269,7 +269,7 @@ class HomeScreen extends Component {
       <View style={{flex: 1}}>
         <Header withProfileButton title="Club Stride" level={this.state.level}/>
         <ScrollView>
-          <View style={{backgroundColor: '#ff3366'}}>
+          <View style={{backgroundColor: '#f4f5f7'}}>
             <ScrollView
                 style={{paddingTop: 5, paddingBottom: 5}}
                 scrollEventThrottle={10}
@@ -282,28 +282,28 @@ class HomeScreen extends Component {
                 snapToInterval={Math.round(Dimensions.get('window').width * 0.8825)}
               >
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='#4f4c4c' type='Weekly Steps' count={this.state.weeklysteps + this.state.currentStepCount} />
+                <StepBlob bgColor='#4885ed' type='Weekly Steps' count={this.state.weeklysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='#4f4c4c' type='Daily Steps' count={this.state.dailysteps + this.state.currentStepCount} />
+                <StepBlob bgColor='#db3236' type='Daily Steps' count={this.state.dailysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='#4f4c4c' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
+                <StepBlob bgColor='#3cba54' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
               </View>
             </ScrollView>
           </View>
-          <View style={{backgroundColor: '#282525', paddingBottom: 120}}>
-            <Text style={{fontSize: 28, margin: 15, color: 'white', fontWeight: '900', textAlign: 'center'}}>
+          <View style={{backgroundColor: '#dbdcdd', paddingBottom: 120}}>
+            <Text style={{fontSize: 28, margin: 15, color: 'black', fontWeight: '900', textAlign: 'center'}}>
               Goals
             </Text>
             {this.state.loading == true ? null : this.renderGoalBlobs()}
             {this.state.loading == true ? null :
               this.state.checkItUsed == true ?
-              <View style={{flex: 1, alignItems: 'center', backgroundColor: '#282525', marginBottom: 30}}>
+              <View style={{flex: 1, alignItems: 'center', backgroundColor: '#dbdcdd', marginBottom: 30}}>
                 <GoalBlob goalType="CheckItUsed"/>
               </View>
               :
-              <View style={{flex: 1, alignItems: 'center', backgroundColor: '#282525', marginBottom: 30}}>
+              <View style={{flex: 1, alignItems: 'center', backgroundColor: '#dbdcdd', marginBottom: 30}}>
                 <GoalBlob goalType={"CheckItUnused"}/>
               </View>
             }
