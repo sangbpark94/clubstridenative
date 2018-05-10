@@ -294,6 +294,7 @@ class HomeScreen extends Component {
           </View>
           <View style={{backgroundColor: '#dbdcdd', paddingBottom: 120}}>
             <Text style={{fontSize: 28, margin: 15, color: 'black', fontWeight: '900', textAlign: 'center'}}>
+
               Goals
             </Text>
             {this.state.loading == true ? null : this.renderGoalBlobs()}
@@ -304,6 +305,7 @@ class HomeScreen extends Component {
               </View>
               :
               <View style={{flex: 1, alignItems: 'center', backgroundColor: '#dbdcdd', marginBottom: 30}}>
+
                 <GoalBlob goalType={"CheckItUnused"}/>
               </View>
             }
