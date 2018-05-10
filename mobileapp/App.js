@@ -20,12 +20,21 @@ export default class App extends Component {
 
   componentDidMount() {
     var config = {
+<<<<<<< HEAD
       apiKey: apiKey		,
       authDomain: authDomain,
       databaseURL: databaseURL,
       projectId: projectId,
       storageBucket: storageBucket,
       messagingSenderId: messagingSenderId
+=======
+      apiKey: apiKey		,
+      authDomain: authDomain,
+      databaseURL: databaseURL,
+      projectId: projectId,
+      storageBucket: storageBucket,
+      messagingSenderId: messagingSenderId
+>>>>>>> d2d65e9751e0e505663b3f5ca5878ceb11857fde
     };
     firebase.initializeApp(config);
 
