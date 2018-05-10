@@ -3,8 +3,10 @@ import { Dimensions, View, Text, TouchableOpacity, StyleSheet, ScrollView } from
 import { Pedometer } from "expo";
 import { withNavigation } from 'react-navigation'
 import Header from '../components/Header'
+import Footer from '../components/Footer'
 import StepBlob from '../components/StepBlob'
 import GoalBlob from '../components/GoalBlob'
+import * as firebase from "firebase";
 
 class HomeScreen extends Component {
 
@@ -13,7 +15,17 @@ class HomeScreen extends Component {
     blobHeight: 0,
     isPedometerAvailable: "checking",
     pastStepCount: 0,
-    currentStepCount: 0
+    currentStepCount: 0,
+    loading: true,
+    goalData: [],
+    checkItUsed: null,
+    level: 0,
+    dailysteps: 0,
+    weeklysteps: 0,
+    monthlysteps: 0,
+    dailystartdate: null,
+    weeklystartdate: null,
+    monthlystartdate: null
   };
 
   componentDidMount() {
@@ -22,10 +34,188 @@ class HomeScreen extends Component {
     height  = Math.round(height);
     this.setState({blobHeight: height, blobContWidth: blobContWidth});
     this._subscribe();
+    this.setGoalData();
+    this.setSteps();
+    this.checkForDateResets();
+    this.setLevel();
+    setInterval(()=>this.updateSteps(), 30000)
   }
 
-  componentWillUnmount() {
-    this._unsubscribe();
+  setGoalData = () => {
+    var current = this;
+    var userGoalsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/Goals');
+    var goalsLibRef = firebase.database().ref('GoalsLib');
+    this.setState({goalData: []});
+    userGoalsRef.once('value', function(goals) {
+      var i = 0;
+      var num = goals.numChildren();
+      goals.forEach(function(goal){
+        var val = goal.val();
+        firebase.database().ref('GoalsLib/' + val.key).once('value',
+          function(info){
+            i++;
+            if(goal.key == "CheckIt"){
+              if(val.used == true)
+                current.setState({checkItUsed: true})
+            }
+            else{
+              var infoVal = info.val();
+              var data =  {
+                goalType: goal.key,
+                details: info.child("details").exists() ? infoVal.details : "",
+                endDuration: info.child("duration").exists() ? infoVal.duration : "",
+                currentSteps: val.currentSteps ? val.currentSteps : 0,
+                endSteps: info.child("steps").exists() ? infoVal.steps : 0,
+                endTime:goal.child("endTime").exists() ? val.endTime : "",
+                endDate: info.child("endDate").exists() ? infoVal.endDate : "",
+                timeType: info.child("timetype").exists() ? infoVal.timetype : "",
+                currentDuration: val.currentDuration
+              }
+              var temp = current.state.goalData;
+              temp.push(data);
+              current.setState({goalData: temp})
+            }
+            if(i == num){
+              current.setState({loading: false})
+            }
+          })
+      })
+    })
+  }
+
+  checkForDateResets(){
+    var q = new Date(2018,4,7,0,0);
+    var x = q.getTime();
+    // console.log("May 7: " + x);
+    q = new Date(2018,4,8,0,0);
+    x = q.getTime();
+    // console.log("May 8: " + x);
+    var current = this;
+    var stepsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/StartDates');
+    stepsRef.once('value', (info) => {
+      var dailystartdate = info.val().Daily
+      var weeklystartdate = info.val().Weekly
+      var monthlystartdate = info.val().Monthly
+      var enddailydate = dailystartdate + 86400000;
+      var endweeklydate = weeklystartdate + 604800000;
+      var temp = new Date(monthlystartdate);
+      var endmonthlydate;
+      var month = temp.getMonth();
+      if(month == 1){
+        endmonthlydate = monthlystartdate + 2419200000;
+      }
+      else if(month == 3 || month == 5 || month == 8 || month == 10){
+        endmonthlydate = monthlystartdate + 2592000000;
+      }
+      else {
+        endmonthlydate = monthlystartdate + 2678400000
+      }
+
+      var d = new Date();
+      var t = d.getTime();
+      // console.log("time now is " + t)
+      // console.log("enddailydate is " + enddailydate)
+      // console.log("endweeklydate is" + endweeklydate)
+      // console.log("endmonthlydate is " + endmonthlydate)
+      if(enddailydate <= t){
+        this.resetStepsAndDate('dailystartdate', 'dailysteps', 'Daily')
+        // console.log("entered 1")
+      }
+      else{
+        setTimeout(function() {current.resetStepsAndDate('dailystartdate', 'dailysteps', 'Daily')}, enddailydate - t);
+        // console.log("time til enddailydate " + (enddailydate - t));
+        // console.log("entered 2")
+      }
+      if(endweeklydate <= t){
+        this.resetStepsAndDate('weeklystartdate', 'weeklysteps', 'Weekly')
+        // console.log("entered 3")
+      }
+      else{
+        setTimeout(function() {current.resetStepsAndDate('weeklystartdate', 'weeklysteps', 'Weekly')}, endweeklydate - t);
+        // console.log("time til enddailydate " + (endweeklydate - t));
+        // console.log("entered 4")
+      }
+      if(endmonthlydate <= t){
+        this.resetStepsAndDate('monthlystartdate', 'monthlysteps', 'Monthly')
+        // console.log("entered 5")
+      }
+      else{
+        setTimeout(function() {current.resetStepsAndDate('monthlystartdate', 'monthlysteps', 'Monthly')}, endmonthlydate - t);
+        // console.log("time til enddailydate " + (endmonthlydate - t));
+        // console.log("entered 6")
+      }
+      this.setState({
+        dailystartdate: info.val().Daily,
+        weeklystartdate: info.val().Weekly,
+        monthlystartdate: info.val().Monthly
+      })
+
+    })
+  }
+
+  resetStepsAndDate(a,b,c) {
+    // console.log("entered reset")
+    var today = new Date();
+    var t = today.getTime();
+    var d;
+    if(c == 'Daily'){
+      d = Math.floor(t / 86400000) * 86400000;
+    }
+    else if(c == 'Weekly'){
+      d = Math.floor(t / 604800000) * 604800000;
+    }
+    else if(c == 'Monthly'){
+      var date = new Date(today.getYear(), today.getMonth(), 1, 0, 0);
+      d = date.getTime();
+    }
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/Steps/' + c).set(0);
+    this.setState({ [a]: d, [b]: 0 })
+  }
+
+  setLevel() {
+    var ratingRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/Rating');
+    ratingRef.once('value', (info) => {
+      this.setState({level: info.val().currentLevel})
+    })
+  }
+
+  setSteps() {
+    var stepsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/Steps');
+    stepsRef.once('value', (info) => {
+      this.setState({
+        dailysteps: info.val().Daily,
+        weeklysteps: info.val().Weekly,
+        monthlysteps: info.val().Monthly
+      })
+    })
+  }
+
+  updateSteps() {
+    var stepsRef = firebase.database().ref('users/' + firebase.auth().currentUser.uid + '/StepInfo/Steps');
+    stepsRef.set({
+      Daily: this.state.dailysteps + this.state.currentStepCount,
+      Weekly: this.state.weeklysteps + this.state.currentStepCount,
+      Monthly: this.state.monthlysteps + this.state.currentStepCount
+    })
+  }
+
+  renderGoalBlobs = () => {
+    var current = this;
+    return this.state.goalData.map((obj, i) => (
+        <View key={i} style={{flex: 1, alignItems: 'center', backgroundColor: '#dbdcdd', marginBottom: 30}}>
+          <GoalBlob goalType={obj.goalType}
+                    details={obj.details}
+                    endDuration={obj.endDuration}
+                    currentSteps={obj.currentSteps}
+                    endSteps={obj.endSteps}
+                    endTime={obj.endTime}
+                    endDate={obj.endDate}
+                    timeType={obj.timeType}
+                    currentDuration={obj.currentDuration}
+                    />
+        </View>
+      )
+    )
   }
 
   _subscribe = () => {
@@ -70,12 +260,12 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <View>
-        <Header withLogOutButton />
+      <View style={{flex: 1}}>
+        <Header withProfileButton title="Club Stride" goalData={this.state.goalData} level={this.state.level}/>
         <ScrollView>
-          <View style={{backgroundColor: 'lightgrey'}}>
+          <View style={{backgroundColor: '#f4f5f7'}}>
             <ScrollView
-                style={{paddingTop: 20, paddingBottom: 20}}
+                style={{paddingTop: 5, paddingBottom: 5}}
                 scrollEventThrottle={10}
                 horizontal
                 showsHorizontalScrollingIndicator={false}
@@ -86,31 +276,36 @@ class HomeScreen extends Component {
                 snapToInterval={Math.round(Dimensions.get('window').width * 0.8825)}
               >
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='blue' type='Weekly Steps' count={this.state.pastStepCount + this.state.currentStepCount + 9835} />
+                <StepBlob bgColor='#4885ed' type='Weekly Steps' count={this.state.weeklysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='red' type='Daily Steps' count={this.state.pastStepCount + this.state.currentStepCount} />
+                <StepBlob bgColor='#db3236' type='Daily Steps' count={this.state.dailysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='green' type='Monthly Steps' count={this.state.pastStepCount + this.state.currentStepCount + 33280} />
+                <StepBlob bgColor='#3cba54' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
               </View>
             </ScrollView>
           </View>
-          <View style={{backgroundColor: 'grey', paddingBottom: 120}}>
-            <Text style={{fontSize: 28, margin: 15, color: 'white', fontWeight: '900', textAlign: 'center'}}>
+          <View style={{backgroundColor: '#dbdcdd', paddingBottom: 120}}>
+            <Text style={{fontSize: 28, margin: 15, color: 'black', fontWeight: '900', textAlign: 'center'}}>
+
               Goals
             </Text>
-            <View style={{flex: 1, alignItems: 'center', backgroundColor: 'grey'}}>
-              <GoalBlob steps={this.state.pastStepCount + this.state.currentStepCount} details='Walk 10,000 Steps For 7 Days'/>
-            </View>
-            <View style={{marginTop: 30, flex: 1, alignItems: 'center', backgroundColor: 'grey'}}>
-              <GoalBlob steps={this.state.pastStepCount + this.state.currentStepCount} details='Walk 10,000 Steps For 7 Days'/>
-            </View>
-            <View style={{marginTop: 30, flex: 1, alignItems: 'center', backgroundColor: 'grey'}}>
-              <GoalBlob steps={this.state.pastStepCount + this.state.currentStepCount} details='Walk 10,000 Steps For 7 Days'/>
-            </View>
+            {this.state.loading == true ? null : this.renderGoalBlobs()}
+            {this.state.loading == true ? null :
+              this.state.checkItUsed == true ?
+              <View style={{flex: 1, alignItems: 'center', backgroundColor: '#dbdcdd', marginBottom: 30}}>
+                <GoalBlob goalType="CheckItUsed"/>
+              </View>
+              :
+              <View style={{flex: 1, alignItems: 'center', backgroundColor: '#dbdcdd', marginBottom: 30}}>
+
+                <GoalBlob goalType={"CheckItUnused"}/>
+              </View>
+            }
           </View>
         </ScrollView>
+        <Footer goalData = {this.state.goalData} level={this.state.level}/>
       </View>
     );
   }
