@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as firebase from "firebase";
 import {AppLoading} from 'expo';
-import Navigator from './navigation/Navigator'
-import LoginScreen from './pages/LoginScreen'
+import Navigator from './navigation/Navigator';
+import LoginScreen from './pages/LoginScreen';
+import config from './config';
+
 export default class App extends Component {
 
   constructor(props){
@@ -19,25 +21,8 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    var config = {
-<<<<<<< HEAD
-      apiKey: "AIzaSyBiViir44Rl253QD8PgkXhrj5Ccz87qjk0",
-      authDomain: "clubstride-36353.firebaseapp.com",
-      databaseURL: "https://clubstride-36353.firebaseio.com",
-      projectId: "clubstride-36353",
-      storageBucket: "clubstride-36353.appspot.com",
-      messagingSenderId: "461351295355"
-=======
-      apiKey: apiKey		,
-      authDomain: authDomain,
-      databaseURL: databaseURL,
-      projectId: projectId,
-      storageBucket: storageBucket,
-      messagingSenderId: messagingSenderId
->>>>>>> d2d65e9751e0e505663b3f5ca5878ceb11857fde
-    };
-    firebase.initializeApp(config);
 
+    firebase.initializeApp(config);
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         if (this.state.new_user){

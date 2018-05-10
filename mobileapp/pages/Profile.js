@@ -108,7 +108,7 @@ class Profile extends Component {
             {this.state.loading ? null: <NextLevelBanner level={this.state.level} nextLevelData={this.state.nextLevelData}/> }
           </View>
         </ScrollView>
-        <Footer />
+        <Footer goalData={this.props.navigation.state.params.goalData} level={this.props.navigation.state.params.level}/>
       </View>
     )
   }
