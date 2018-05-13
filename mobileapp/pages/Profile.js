@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, Dimensions, View, Text, ScrollView } from 'react-native'
+import { Image, Dimensions, View, Text, ScrollView, StyleSheet } from 'react-native'
 import * as firebase from "firebase";
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -80,6 +80,7 @@ class Profile extends Component {
           <View style={{flex: 1, borderRadius: 85, borderWidth: 15, borderColor: 'black', width: 175, height: 175, backgroundColor: 'red', justifyContent: 'center'}}>
             <Text style={{textAlign: 'center', color: 'white', fontSize: 100, fontWeight: '900'}}>{this.state.level}</Text>
           </View>
+
           <Text style={{margin: 20, fontSize: 36, fontWeight: '900', textAlign: 'center'}}>
             Rating {this.state.rating}
           </Text>
@@ -114,5 +115,16 @@ class Profile extends Component {
   }
 
 }
+const styles = StyleSheet.create({
+   icon: {
+     position: 'absolute',
+     tintColor: 'white',
+     zIndex: 99,
+     width: 22,
+     height: 22,
+     left: 35,
+     top: 9,
+   }
+});
 
 export default withNavigation(Profile)

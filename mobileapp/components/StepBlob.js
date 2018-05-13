@@ -26,7 +26,7 @@ class StepBlob extends Component {
   render() {
     return (
       <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: this.props.bgColor, width: this.state.width, height: this.state.height, borderRadius: 10}}>
-        <Text style={{marginTop: 10, color: 'black', fontWeight: '900', width: '100%', height: 20, fontSize: 18, textAlign: 'center'}}> {this.props.type} </Text>
+        <Text style={{marginTop: 10, color: 'white', fontWeight: '900', width: '100%', height: 20, fontSize: 18, textAlign: 'center'}}> {this.props.type} </Text>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'black', borderRadius: 10, width: this.state.innerWidth, margin: 20, marginTop: 10}}>
           <Text style={{color: 'white', fontSize: 80, textAlign: 'center'}}>
             {this.props.count}

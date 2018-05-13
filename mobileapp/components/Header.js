@@ -6,7 +6,6 @@ import { Icon } from 'react-native-elements'
 import * as firebase from "firebase";
 
 class Header extends Component {
-
   render() {
     return (
         <View
@@ -32,13 +31,13 @@ class Header extends Component {
             </TouchableOpacity>
           }
           <View style={{flexDirection: 'row', justifyContent: 'space-between', flex: 1}}>
-            <Text style={{color: 'white', fontSize: 24, fontWeight: 'bold', margin: 16}}>{this.props.title}</Text>
+            <Text style={{color: 'black', fontSize: 24, fontWeight: 'bold', margin: 16}}>{this.props.title}</Text>
             {
               this.props.withProfileButton &&
-              <TouchableOpacity style={{position: 'absolute', flex: 1, paddingLeft: 15, paddingRight: 15, top: 0, right: 20, borderRadius: 50, height: 50, backgroundColor: levelColor[this.props.level]}}
-                onPress={() => this.props.navigation.navigate('Profile', {goalData: this.props.goalData, level: this.props.level})}
-                >
-                <Text style={{color: 'white', fontSize: 40, fontWeight: '900'}}>{this.props.level}</Text>
+              <TouchableOpacity style={[styles.level_container, { backgroundColor: levelColor[this.props.level] }]}
+                                onPress={() => this.props.navigation.navigate('Profile', {  goalData: this.props.goalData,
+                                                                                            level: this.props.level})}>
+                <Text style={styles.level_text}>{this.props.level}</Text>
               </TouchableOpacity>
             }
             {
@@ -53,6 +52,7 @@ class Header extends Component {
       </View>
     );
   }
+
 }
 
 export default withNavigation(Header);
@@ -68,17 +68,37 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: STATUSBAR_HEIGHT,
     alignItems: 'center',
-    backgroundColor:'#222',
+    backgroundColor:'white',
+
   },
   back: {
     width: 24,
     height:24,
     margin: 16,
   },
+  level_container: {
+    position: 'absolute',
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    top: 0,
+    right: 25,
+    borderRadius: 20,
+    height: 50,
+    borderColor: "white",
+    borderWidth: 1,
+    justifyContent: 'center'
+  },
+  level_text:{
+    color: 'white',
+    fontSize: 30,
+    fontWeight: '900',
+
+  },
 });
 
 const levelColor = {
-  1:  'red',
+  1:  'rgba(255,0,0, 0.5)',
   2:  'blue',
   3:  'green'
 }

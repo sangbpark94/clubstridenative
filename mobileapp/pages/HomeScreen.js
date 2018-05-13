@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dimensions, View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native'
-import { Pedometer } from "expo";
+import { Pedometer, LinearGradient } from "expo";
 import { withNavigation } from 'react-navigation'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -261,9 +261,11 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={{flex: 1}}>
+      <LinearGradient colors={['rgba(146, 135, 187, 0.8)', 'rgba(0, 0, 0, 0.6)']}
+                      style={styles.gradient}/>
         <Header withProfileButton title="Club Stride" goalData={this.state.goalData} level={this.state.level}/>
         <ScrollView>
-          <View style={{backgroundColor: '#f4f5f7'}}>
+          <View style={{backgroundColor: 'white'}}>
             <ScrollView
                 style={{paddingTop: 5, paddingBottom: 5}}
                 scrollEventThrottle={10}
@@ -276,18 +278,18 @@ class HomeScreen extends Component {
                 snapToInterval={Math.round(Dimensions.get('window').width * 0.8825)}
               >
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='#4885ed' type='Weekly Steps' count={this.state.weeklysteps + this.state.currentStepCount} />
+                <StepBlob bgColor='rgba(85, 85, 85, 0.3)' type='Weekly Steps' count={this.state.weeklysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='#db3236' type='Daily Steps' count={this.state.dailysteps + this.state.currentStepCount} />
+                <StepBlob bgColor='rgba(85, 85, 85, 0.3)' type='Daily Steps' count={this.state.dailysteps + this.state.currentStepCount} />
               </View>
               <View style={{flex: 1, alignItems: 'center', width: this.state.blobContWidth}}>
-                <StepBlob bgColor='#3cba54' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
+                <StepBlob bgColor='rgba(85, 85, 85, 0.3)' type='Monthly Steps' count={this.state.monthlysteps + this.state.currentStepCount} />
               </View>
             </ScrollView>
           </View>
-          <View style={{backgroundColor: '#dbdcdd', paddingBottom: 120}}>
-            <Text style={{fontSize: 28, margin: 15, color: 'black', fontWeight: '900', textAlign: 'center'}}>
+          <View style={{paddingBottom: 120}}>
+            <Text style={{fontSize: 28, margin: 15, color: 'white', fontWeight: '900', textAlign: 'center'}}>
 
               Goals
             </Text>
@@ -310,5 +312,15 @@ class HomeScreen extends Component {
     );
   }
 }
+
+const styles = {
+  gradient: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0
+  }
+};
 
 export default withNavigation(HomeScreen);

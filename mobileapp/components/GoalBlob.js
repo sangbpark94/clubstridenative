@@ -22,7 +22,7 @@ class GoalBlob extends Component {
 
   render() {
     return (
-      <View style={{backgroundColor: '#dbdcdd'}}>
+      <View>
         {(this.props.goalType == "Ten" || this.props.goalType == "Twenty" || this.props.goalType == "Thirty" || this.props.goalType == "Ultimate" || this.props.goalType == "UsainBolt") ?
           <View style={{justifyContent: 'center', alignItems: 'center', backgroundColor: '#f4c20d', width: this.state.width, height: this.state.height, borderRadius: 10}}>
             <Text style={{marginTop: 10, color: 'black', fontWeight: '600', width: '100%', height: 20, fontSize: 18, textAlign: 'center'}}> {this.props.details} </Text>
