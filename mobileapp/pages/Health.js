@@ -20,21 +20,21 @@ class Health extends Component {
         <Header withProfileButton title="Health" level={this.props.navigation.state.params.level}/>
         <ScrollView>
           <View style={{flex: 1, flexDirection: 'row', height: 60 , width: '100%'}}>
-            <TouchableOpacity style={{flex: 1, backgroundColor: 'green', justifyContent: 'center'}} onPress={()=>this.setState({page: "Daily"})}>
+            <TouchableOpacity style={{flex: 1, backgroundColor: '#db3236', justifyContent: 'center'}} onPress={()=>this.setState({page: "Daily"})}>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <Text style={{textAlign: 'center', fontWeight: "800", fontSize: 20, color: 'white'}}>
                   Daily
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1, backgroundColor: 'red', justifyContent: 'center'}} onPress={()=>this.setState({page: "Weekly"})}>
+            <TouchableOpacity style={{flex: 1, backgroundColor: '#4885ed', justifyContent: 'center'}} onPress={()=>this.setState({page: "Weekly"})}>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <Text style={{textAlign: 'center', fontWeight: "800", fontSize: 20, color: 'white'}}>
                   Weekly
                 </Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity style={{flex: 1, backgroundColor: 'blue', justifyContent: 'center'}} onPress={()=>this.setState({page: "Monthly"})}>
+            <TouchableOpacity style={{flex: 1, backgroundColor: '#3cba54', justifyContent: 'center'}} onPress={()=>this.setState({page: "Monthly"})}>
               <View style={{flexDirection: 'row', justifyContent: 'center'}}>
                 <Text style={{textAlign: 'center', fontWeight: "800", fontSize: 20, color: 'white'}}>
                   Monthly
@@ -53,7 +53,7 @@ class Health extends Component {
           {this.state.page == "Daily" ?
 
           <View>
-            <View style={{height: 410, backgroundColor: 'green', justifyContent: 'center'}}>
+            <View style={{height: 410, backgroundColor: '#db3236', justifyContent: 'center'}}>
               <Text style={{color: 'white', marginLeft: 20, marginBottom: 30, fontSize: 28}}>Flights Climbed: 13</Text>
               <Text style={{color: 'white', marginLeft: 20, marginBottom: 30, fontSize: 28}}>Calories Burned: 537</Text>
             </View>
@@ -64,7 +64,7 @@ class Health extends Component {
           {this.state.page == "Weekly" ?
 
           <View>
-            <View style={{height: 410, backgroundColor: 'red', justifyContent: 'center'}}>
+            <View style={{height: 410, backgroundColor: '#4885ed', justifyContent: 'center'}}>
               <Text style={{color: 'white', marginLeft: 20, marginBottom: 30, fontSize: 28}}>Flights Climbed: 27</Text>
               <Text style={{color: 'white', marginLeft: 20, marginBottom: 30, fontSize: 28}}>Calories Burned: 1152</Text>
             </View>
@@ -75,7 +75,7 @@ class Health extends Component {
           {this.state.page == "Monthly" ?
 
           <View>
-            <View style={{height: 410, backgroundColor: 'blue', justifyContent: 'center'}}>
+            <View style={{height: 410, backgroundColor: '#3cba54', justifyContent: 'center'}}>
               <Text style={{color: 'white', marginLeft: 20, marginBottom: 30, fontSize: 28}}>Flights Climbed: 71</Text>
               <Text style={{color: 'white', marginLeft: 20, marginBottom: 30, fontSize: 28}}>Calories Burned: 5124</Text>
             </View>
